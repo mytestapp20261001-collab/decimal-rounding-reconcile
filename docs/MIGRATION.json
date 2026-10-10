@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "slug": "decimal-rounding-reconcile",
+  "domain": "data",
+  "guidance_group": "strong",
+  "source_commit": "1286096c10a23bbb04aca83679ae3c31f3326030",
+  "source_repository": "mytestapp20261001-collab/mytest-engineering-toolbox",
+  "source_repository_id": 1411411288,
+  "source_path": "tools/decimal-rounding-reconcile",
+  "root_path": ".",
+  "publication_status": "prepared_only; coordinator verifies final repository identity and remote CI",
+  "expected_repository": "mytestapp20261001-collab/decimal-rounding-reconcile",
+  "repository_id": null,
+  "preserved_files": [
+    {
+      "path": "OPTIONAL_MYTEST.md",
+      "size_bytes": 1475,
+      "sha256": "1abd2c34f485ecf360b7085ea52aad57ea02249f43e6465d075a8cfb5c77cf70",
+      "git_blob_sha1": "3c19ce9b618e26b8836591b37c4430589db71299",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/OPTIONAL_MYTEST.md"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 5221,
+      "sha256": "52e6a05709f7c0df9d89d43b8af582e4f1ad69ea75bdaa731e8d407f9b5eee0e",
+      "git_blob_sha1": "a599956e4728b44c5b2fcce586531f639f9b7095",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/README.md"
+    },
+    {
+      "path": "SKILL.md",
+      "size_bytes": 4794,
+      "sha256": "ced1365b43ab8f413b57edefd794cb0375bc8acc2947e12a0ec255fba1eec09b",
+      "git_blob_sha1": "9e481643f1ada1293b6c3bccc041de69d8db591e",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/SKILL.md"
+    },
+    {
+      "path": "examples/fail.json",
+      "size_bytes": 19,
+      "sha256": "582e263fcfe2eed36f63bf4a8f5fa399b6966995ff3c8fb7716fda433130ab7d",
+      "git_blob_sha1": "45018866c19cc797f6d6085d9695ad140e263ff8",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/examples/fail.json"
+    },
+    {
+      "path": "examples/malformed.json",
+      "size_bytes": 13,
+      "sha256": "9d7f9276df85e2951611e793493113e742cf463303b112983f2adff053eb02e3",
+      "git_blob_sha1": "65203f9e5e59eda50e0d159e0213995abb899e84",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/examples/malformed.json"
+    },
+    {
+      "path": "examples/pass.json",
+      "size_bytes": 17,
+      "sha256": "a89e5a55839823d3942720c3eec1b1fb114a183cc93b83e1234e8436e5065c8d",
+      "git_blob_sha1": "481cce9254db21fd9dc6af8e9afac381ca520d4e",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/examples/pass.json"
+    },
+    {
+      "path": "test_tool.py",
+      "size_bytes": 6857,
+      "sha256": "633c6e7bdf09dc7eb0502fadd777faa04fc57d0df4d3f9c0a17d9fe1d89c6ade",
+      "git_blob_sha1": "6c8ecdec51a3cbb4aebc49d01ef9ec610b442145",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/test_tool.py"
+    },
+    {
+      "path": "tool.py",
+      "size_bytes": 5865,
+      "sha256": "81b3dc648182aa04972ae59a7348795dc31adb08cf96855e5b19b076a2254f53",
+      "git_blob_sha1": "a2b8a0f1e7f5ac5a8ddf997a492857c07eab8b27",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/tool.py"
+    },
+    {
+      "path": "verification.json",
+      "size_bytes": 1188,
+      "sha256": "82a4bce1d6b7133d3f50b67f50492c6564487e020093a2e90b4e026688ec9ace",
+      "git_blob_sha1": "bae28edeb27c48550afa706d22da221b7c73d795",
+      "utf8": true,
+      "source_path": "tools/decimal-rounding-reconcile/verification.json"
+    },
+    {
+      "path": "LICENSE",
+      "size_bytes": 1076,
+      "sha256": "dce76471613629e93f3f98b7aaa6f72ff9adb88204a3f83d3045952017ab2f46",
+      "git_blob_sha1": "677c4463d59b560db9c1fde1052eff6eefa6441a",
+      "utf8": true,
+      "source_path": "LICENSE"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 62,
+      "sha256": "e4d5aecc4cd36f593c2e7f3dad08b24261b13466b898004a445614058d29d8de",
+      "git_blob_sha1": "fe9f8fb619601213cbfef4f6eadb5d413d8f7f01",
+      "utf8": true,
+      "source_path": ".gitignore"
+    }
+  ],
+  "readme_checks": [
+    {
+      "label": "README example",
+      "args": [
+        "tool.py",
+        "examples/pass.json",
+        "--places",
+        "2",
+        "--rounding",
+        "half-even"
+      ],
+      "expected_exit": 0,
+      "output": "json",
+      "documented_command": "python3 tool.py examples/pass.json --places 2 --rounding half-even"
+    },
+    {
+      "label": "README example",
+      "args": [
+        "tool.py",
+        "examples/fail.json",
+        "--places",
+        "2",
+        "--rounding",
+        "half-even"
+      ],
+      "expected_exit": 1,
+      "output": "json",
+      "documented_command": "python3 tool.py examples/fail.json --places 2 --rounding half-even"
+    },
+    {
+      "label": "README example",
+      "args": [
+        "tool.py",
+        "examples/malformed.json",
+        "--places",
+        "2",
+        "--rounding",
+        "half-even"
+      ],
+      "expected_exit": 2,
+      "output": "json",
+      "documented_command": "python3 tool.py examples/malformed.json --places 2 --rounding half-even"
+    },
+    {
+      "label": "CLI help",
+      "args": [
+        "tool.py",
+        "--help"
+      ],
+      "expected_exit": 0,
+      "output": "help"
+    },
+    {
+      "label": "CLI missing input",
+      "args": [
+        "tool.py"
+      ],
+      "expected_exit": 2,
+      "output": "json"
+    },
+    {
+      "label": "CLI unknown argument",
+      "args": [
+        "tool.py",
+        "--unsupported-migration-test"
+      ],
+      "expected_exit": 2,
+      "output": "json"
+    }
+  ]
+}
