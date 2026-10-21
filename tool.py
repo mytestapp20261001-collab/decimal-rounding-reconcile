@@ -6,7 +6,7 @@ import math
 import re
 import stat
 import sys
-from decimal import Decimal, InvalidOperation
+from decimal import Context, Decimal, InvalidOperation
 from pathlib import Path
 
 MAX_BYTES = 8 * 1024 * 1024
@@ -41,10 +41,14 @@ def unique_pairs(pairs):
         result[key] = value
     return result
 
+def parse_decimal(value):
+    # Decimal construction must not inherit a host application's disabled traps.
+    return Decimal(value, context=Context(traps=[InvalidOperation]))
+
 def parse_json(text):
     try:
         result = json.loads(text, object_pairs_hook=unique_pairs,
-                            parse_float=Decimal, parse_constant=reject_constant)
+                            parse_float=parse_decimal, parse_constant=reject_constant)
     except InputError:
         raise
     except (ValueError, RecursionError, InvalidOperation):
@@ -99,21 +103,26 @@ def audit(values, *, places, rounding, show_totals=False):
         raise InputError("invalid_rounding_policy")
     if not isinstance(values, list) or not 1 <= len(values) <= 10000:
         raise InputError("nonempty_decimal_string_array_required")
+    # Do not inherit a caller's precision, exponent bounds, flags or traps.
+    # These bounds permit exact sums for every documented input magnitude/count.
+    context = decimal.Context(prec=256, rounding=decimal.ROUND_HALF_EVEN,
+                              Emin=-999999, Emax=999999, capitals=1, clamp=0,
+                              flags=[], traps=[decimal.InvalidOperation,
+                                               decimal.DivisionByZero, decimal.Overflow])
     parsed = []
     for value in values:
         if (not isinstance(value, str) or len(value) > 128 or
             not re.fullmatch(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?", value)):
             raise InputError("invalid_decimal_string")
         try:
-            number = Decimal(value)
+            number = Decimal(value, context=context)
         except decimal.InvalidOperation:
             raise InputError("invalid_decimal_string") from None
         if len(number.as_tuple().digits) > 100 or not -100 <= number.as_tuple().exponent <= 100 or number.adjusted() > 100:
             raise InputError("decimal_magnitude_limit")
         parsed.append(number)
     report = Report(TOOL)
-    with decimal.localcontext() as context:
-        context.prec = 256  # Exact sums under the documented magnitude/count bounds.
+    with decimal.localcontext(context):
         quantum = Decimal(1).scaleb(-places)
         mode = ROUNDINGS[rounding]
         rounded = [n.quantize(quantum, rounding=mode) for n in parsed]
